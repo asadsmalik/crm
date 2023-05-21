@@ -1,0 +1,2 @@
+celery -A logistics_crm worker --pool=solo -l INFO
+celery -A logistics_crm beat -l INFO

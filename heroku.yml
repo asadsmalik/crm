@@ -1,0 +1,26 @@
+setup:
+  addons:
+    - plan: hobby-dev
+      as: DATABASE
+  config:
+    DJANGO_SETTINGS_MODULE: logistics_crm.settings_heroku
+build:
+  docker:
+    django: Dockerfile.web
+release:
+  image: django
+  command:
+    - python manage.py migrate
+run:
+  web:
+    command:
+      - gunicorn --bind 0.0.0.0:$PORT --workers 1 --threads 8 --timeout 0 logistics_crm.wsgi:application
+    image: django
+  celeryworker: 
+    command:
+      -  celery -A logistics_crm worker --pool=solo -l INFO
+    image: django
+  celerybeat:
+    command:
+      - celery -A logistics_crm beat -l INFO
+    image: django

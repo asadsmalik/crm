@@ -1,0 +1,6 @@
+db.sqlite3
+__pycache__
+default-key.pem
+.env
+.DS_Store
+.vscode
